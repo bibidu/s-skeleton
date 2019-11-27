@@ -5,8 +5,10 @@
 - npm i
 - webpack
 
-- 原页面dom
+### 原页面dom
+
 ![](imgs/before.png)
 
-- 骨架屏dom
+### 骨架屏dom
+
 ![](imgs/after.png)
