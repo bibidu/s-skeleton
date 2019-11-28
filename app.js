@@ -26,9 +26,6 @@ const replaceToDivElement = function(element, needRenderColorElements) {
   const style = getComputedStyle(element)
   const div = document.createElement('div')
   interitAttrNames.forEach(name => div.style[name] = style[name])
-  // div.style.width = style.width
-  // div.style.height = style.height
-  // div.style.margin = style.margin
   needRenderColorElements.push(div)
   element.parentNode.insertBefore(div, element)
   element.remove()
@@ -38,6 +35,7 @@ const replaceToDivElement = function(element, needRenderColorElements) {
 const collectNoChildrenElement = function(selector = 'body', needRenderColorElements) {
   let currentNode = typeof selector === 'string' ? document.querySelector(selector) : selector
   switch(currentNode.tagName) {
+    case 'SCRIPT': return
     case 'A':
     case 'SPAN':
     case 'LABEL':

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
   <style>
   .land-page-detail-feed-container .detail-feed-main-wrapper {
   padding: 40px 30px 0;
@@ -60,6 +61,7 @@
   color: #333;
   font-size: 34px;
   line-height: 48px;
+  margin-bottom:5px;
 }
 .land-page-detail-feed-container .detail-feed-main-wrapper .normal-feed .feed-img-wrapper {
   display: flex;
@@ -109,32 +111,47 @@
   </style>
 </head>
 <body>
-    <div class="land-page-detail-feed-container">
+    <div id="app" class="land-page-detail-feed-container">
       <div class="detail-feed-main-wrapper">
           <div class="detail-feed-head-wrapper">
               <div class="detail-feed-head-left">
-                <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3608155120,1630233151&fm=26&gp=0.jpg" alt="" class="detail-feed-head-avatar"/>
+                <img :src="imgUrl" alt="" class="detail-feed-head-avatar"/>
                 <div class="detail-union-name-time">
-                  <div class="name">爱我如风</div>
+                  <div class="name">{{nickname}}</div>
                     <div class="user-tag">
-                      <img class="user-tag-icon" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3608155120,1630233151&fm=26&gp=0.jpg"/>
-                      <span>北京市大兴区</span>
+                      <img class="user-tag-icon" :src="imgUrl"/>
+                      <span>{{addr}}</span>
                     </div>
                 </div>
               </div>
             </div>
-        <div class="detail-feed-time">2015.01.21</div>
+        <div class="detail-feed-time">{{time}}</div>
       </div>
       <div class="normal-feed">
-          <div class="feed-text-wrapper" style="margin-bottom:5px;">
-            <span>发我爱妃安慰荆防颗粒挖掘福利价位二纺机安慰奖非</span>
+          <div class="feed-text-wrapper" style="margin-bottom:900px;">
+            <span>{{desc}}</span>
           </div>
           <div class="feed-img-wrapper" style="display:flex;">
-          <img class="singleImg" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3608155120,1630233151&fm=26&gp=0.jpg"></img>
-          <img class="singleImg" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3608155120,1630233151&fm=26&gp=0.jpg"></img>
-          <img class="singleImg" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3608155120,1630233151&fm=26&gp=0.jpg"></img>
+            <img v-for="item in imgUrls" class="singleImg" :src="item"></img>
           </div>
         </div>
     </div>
-<script type="text/javascript" src="main.2969414f9848f99c85b7.js"></script></body>
+
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          nickname: '爱我如风',
+          desc: '吉他 发额外风口浪尖2块非213发额外风口浪尖2块非213发额外风口浪尖2块非213',
+          time: '2015.01.21',
+          addr: '北京市大兴区',
+          imgUrl: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3608155120,1630233151&fm=26&gp=0.jpg',
+          imgUrls: [
+          'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3608155120,1630233151&fm=26&gp=0.jpg',
+          'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3608155120,1630233151&fm=26&gp=0.jpg',
+          ]
+        }
+      })
+    </script>
+<script type="text/javascript" src="main.2afaf42dc097d55875ce.js"></script></body>
 </html>
