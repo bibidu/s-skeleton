@@ -1,6 +1,7 @@
-module.exports = function makeDiv(current) {
+module.exports = function makeDiv(sourceNodes, cloneNodes) {
+  console.log(123)
   const baseSpacing = 6
-  const style = window.getComputedStyle(current)
+  const style = getComputedStyle(sourceNodes)
   let height = style.height
   let lineHeight = style.lineHeight
   if (height.includes('px')) {
@@ -12,9 +13,10 @@ module.exports = function makeDiv(current) {
     } else if (lineHeight.includes('%')) {
       lineHeight = height * Number(lineHeight.slice(0, -1))
     }
-    current.innerHTML = ''
+    cloneNodes.innerHTML = ''
     const number = Math.floor(Math.sqrt(height / (lineHeight + baseSpacing)))
     let i = number
+    console.log(i)
     while (i-- > 0) {
       const el = document.createElement('div')
       el.style.color = '#ccc !important'
@@ -22,12 +24,11 @@ module.exports = function makeDiv(current) {
       el.style.marginBottom = baseSpacing + 'px'
       el.style.width = '100%'
       el.style.height = number === 1 ? lineHeight + baseSpacing + 'px' : Math.floor(height / number) + 'px'
-      current.appendChild(el)
+      cloneNodes.appendChild(el)
     }
-    if (getComputedStyle(current).width === '0px') {
-      current.style.width = '100%'
+    if (getComputedStyle(sourceNodes).width === '0px') {
+      cloneNodes.style.width = '100%'
     }
-    console.log(getComputedStyle(current).width)
   } else {
     console.log('height not has px unit!')
   }

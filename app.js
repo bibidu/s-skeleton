@@ -21,47 +21,46 @@ const genBlock = function(els) {
   })
 }
 
-const replaceToDivElement = function(element, needRenderColorElements) {
+const replaceToDivElement = function(sourceNodes, cloneNodes, needRenderColorElements) {
   const interitAttrNames = ['width', 'height', 'margin', 'borderRadius']
-  const style = getComputedStyle(element)
+  const style = getComputedStyle(sourceNodes)
   const div = document.createElement('div')
   interitAttrNames.forEach(name => div.style[name] = style[name])
   needRenderColorElements.push(div)
-  element.parentNode.insertBefore(div, element)
-  element.remove()
+  cloneNodes.parentNode.insertBefore(div, cloneNodes)
+  cloneNodes.remove()
 }
  
  
-const collectNoChildrenElement = function(selector = 'body', needRenderColorElements) {
-  let currentNode = typeof selector === 'string' ? document.querySelector(selector) : selector
-  switch(currentNode.tagName) {
+const collectNoChildrenElement = function(selector = 'body', cloneNodes, needRenderColorElements) {
+  let sourceNodes = typeof selector === 'string' ? document.querySelector(selector) : selector
+  switch(sourceNodes.tagName) {
     case 'SCRIPT': return
     case 'A':
-    case 'SPAN':
     case 'LABEL':
     case 'BUTTON': {
-      return needRenderColorElements.push(currentNode)
+      return needRenderColorElements.push(cloneNodes)
     }
     case 'IMG': {
-      return replaceToDivElement(currentNode, needRenderColorElements)
+      return replaceToDivElement(sourceNodes, cloneNodes, needRenderColorElements)
     }
   }
 
-  if (!currentNode.hasChildNodes()) {
-    if (currentNode.tagName === 'DIV') {
-      makeDiv(currentNode)
+  if (!sourceNodes.hasChildNodes()) {
+    if (sourceNodes.tagName === 'DIV' || sourceNodes.tagName === 'SPAN') {
+      makeDiv(sourceNodes, cloneNodes)
     }
     
-    if (currentNode.nodeType === 3 // 文本节点
-      && currentNode.data.trim() !== '' // 内容非空
+    if (sourceNodes.nodeType === 3 // 文本节点
+      && sourceNodes.data.trim() !== '' // 内容非空
     ) {
-      return needRenderColorElements.push(currentNode.parentNode)
+      return needRenderColorElements.push(cloneNodes.parentNode)
     }
-    needRenderColorElements.push(currentNode)
+    needRenderColorElements.push(cloneNodes)
   }
  
-  (currentNode.childNodes || []).forEach(child => {
-    collectNoChildrenElement(child, needRenderColorElements)
+  (sourceNodes.childNodes || []).forEach((child, idx) => {
+    collectNoChildrenElement(child, cloneNodes.childNodes[idx], needRenderColorElements)
   })
 }
 
