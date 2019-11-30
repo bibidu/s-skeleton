@@ -1,5 +1,4 @@
 module.exports = function makeDiv(sourceNodes, cloneNodes) {
-  console.log(123)
   const baseSpacing = 6
   const style = getComputedStyle(sourceNodes)
   let height = style.height
@@ -16,7 +15,6 @@ module.exports = function makeDiv(sourceNodes, cloneNodes) {
     cloneNodes.innerHTML = ''
     const number = Math.floor(Math.sqrt(height / (lineHeight + baseSpacing)))
     let i = number
-    console.log(i)
     while (i-- > 0) {
       const el = document.createElement('div')
       el.style.color = '#ccc !important'

@@ -7,6 +7,7 @@ const {
 
 
 const COLOR = '#ededed' // 色块颜色
+const inlineNodes = ['IMG']
 
 const genBlock = function(els) {
   els = Array.isArray(els) ? els : [els]
@@ -26,6 +27,9 @@ const replaceToDivElement = function(sourceNodes, cloneNodes, needRenderColorEle
   const style = getComputedStyle(sourceNodes)
   const div = document.createElement('div')
   interitAttrNames.forEach(name => div.style[name] = style[name])
+  if (inlineNodes.includes(sourceNodes.tagName)) {
+    div.style.display = 'inline-block'
+  }
   needRenderColorElements.push(div)
   cloneNodes.parentNode.insertBefore(div, cloneNodes)
   cloneNodes.remove()
