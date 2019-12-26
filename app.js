@@ -73,5 +73,4 @@ function createClearStyleTag(document) {
   `
   document.getElementsByTagName('head')[0].appendChild(style)
 }
-
-App()
+// App()
