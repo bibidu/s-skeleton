@@ -296,7 +296,7 @@ function extractInViewDom(sourceNodes) {
     return cloneNodes
   }
 }
-let initialBody
+let initialBody, cloneBody, toggleStatusButton
 
 // 流程1：克隆并替换body
 function cloneAndReplaceBody() {
@@ -312,14 +312,20 @@ function genSkeletonStrategies() {
 }
 
 function App() {
-  const clone = cloneAndReplaceBody()
+  cloneBody = cloneAndReplaceBody()
   genSkeletonStrategies()
   // test
-  openAnotherBrowser(clone)
+  // openAnotherBrowser(clone)
   // 恢复当前页面到最初状态
-  rollbackPage()
+  // rollbackPage()
+  createToggleStatusBtn()
 }
-
+function toggleInitial() {
+  document.body = cloneBody
+}
+function toggleSkeleton() {
+  document.body = initialBody
+}
 function rollbackPage() {
   document.body = initialBody
 }
@@ -366,6 +372,51 @@ function createClearStyleTag(document) {
   `
   document.getElementsByTagName('head')[0].appendChild(style)
 }
-// setTimeout(() => {
+
+function renderToggleStatusButton() {
+  document.body.appendChild(toggleStatusButton)
+}
+
+function createToggleStatusBtn() {
+  const style = document.createElement('style')
+  style.type = 'text/css'
+  style.innerHTML = `
+  .toggle-status{
+    position: fixed;
+    z-index: 9999;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 4px;
+    background: #409eff;
+    color: #fff;
+    font-weight: bold;
+    width: 300px;
+    text-align: center;
+    font-size: 14px;
+    font-family: Consolas;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  `
+  document.getElementsByTagName('head')[0].appendChild(style)
+  toggleStatusButton = document.createElement('div')
+  toggleStatusButton.setAttribute('class', 'toggle-status')
+  toggleStatusButton.innerText = '原始页面'
+  toggleStatusButton.addEventListener('click', () => {
+    if (toggleStatusButton.innerText === '原始页面') {
+      toggleStatusButton.innerText = '骨架屏页面'
+      toggleSkeleton()
+    } else {
+      toggleStatusButton.innerText = '原始页面'
+      toggleInitial()
+    }
+    renderToggleStatusButton()
+  })
+  
+  document.body.appendChild(toggleStatusButton)
+}
+
 App()
-// }, 1000);

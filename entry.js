@@ -1,4 +1,4 @@
-function injectScript() {
+function injectSkeletonBundle() {
   chrome.tabs.executeScript(
     null,
     {
@@ -8,9 +8,23 @@ function injectScript() {
   )
 }
 
+function injectSaveSkeleton() {
+  chrome.tabs.executeScript(
+    null,
+    {
+      file: 'save-skeleton.js',
+      allFrames: true
+    }
+  )
+}
+
 document.addEventListener('DOMContentLoaded', function () {
-  var generateSkeleton = document.querySelector('.generate-skeleton');
+  const generateSkeleton = document.querySelector('.generate-skeleton');
+  const saveSkeleton = document.querySelector('.save-skeleton');
   generateSkeleton.addEventListener('click', () => {
-    injectScript()
+    injectSkeletonBundle()
+  })
+  saveSkeleton.addEventListener('click', () => {
+    injectSaveSkeleton()
   })
 });
