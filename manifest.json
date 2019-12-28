@@ -6,7 +6,8 @@
 	"author": "bibidu",
 	"browser_action": {
 		"default_icon": "logo.png",
-		"default_popup": "index.html"
+		"default_popup": "index.html",
+		"default_title": "在线生成骨架屏并下载"
   },
   "permissions": [
     "tabs", "http://*/*", "https://*/*"

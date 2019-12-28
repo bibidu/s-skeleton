@@ -320,6 +320,8 @@ function App() {
   // rollbackPage()
   createToggleStatusBtn()
 }
+
+
 function toggleInitial() {
   document.body = cloneBody
 }
@@ -381,42 +383,75 @@ function createToggleStatusBtn() {
   const style = document.createElement('style')
   style.type = 'text/css'
   style.innerHTML = `
-  .toggle-status{
+  .skeleton-container{
     position: fixed;
     z-index: 9999;
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    border-radius: 4px;
-    background: #409eff;
     color: #fff;
     font-weight: bold;
     width: 300px;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     font-family: Consolas;
     height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
+  .skeleton-container .button{
+    flex: 1;
+    background: #409eff;
+    border-radius: 4px;
+    color: #fff;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+  }
+  .skeleton-container .download {
+    margin-left: 20px;
+  }
   `
   document.getElementsByTagName('head')[0].appendChild(style)
-  toggleStatusButton = document.createElement('div')
-  toggleStatusButton.setAttribute('class', 'toggle-status')
-  toggleStatusButton.innerText = '原始页面'
-  toggleStatusButton.addEventListener('click', () => {
-    if (toggleStatusButton.innerText === '原始页面') {
-      toggleStatusButton.innerText = '骨架屏页面'
+  container = document.createElement('div')
+  toggleRawAndSkeletonBtn = document.createElement('button')
+  downloadBtn = document.createElement('button')
+
+  toggleRawAndSkeletonBtn.setAttribute('class', 'button')
+  downloadBtn.setAttribute('class', 'button download')
+  toggleRawAndSkeletonBtn.innerText = '原页面'
+  downloadBtn.innerText = '下载'
+
+  container.setAttribute('class', 'skeleton-container')
+  
+  toggleRawAndSkeletonBtn.addEventListener('click', () => {
+    if (toggleRawAndSkeletonBtn.innerText === '原页面') {
+      toggleRawAndSkeletonBtn.innerText = '骨架屏页面'
       toggleSkeleton()
     } else {
-      toggleStatusButton.innerText = '原始页面'
+      toggleRawAndSkeletonBtn.innerText = '原页面'
       toggleInitial()
     }
     renderToggleStatusButton()
   })
   
-  document.body.appendChild(toggleStatusButton)
+  downloadBtn.addEventListener('click', () => {
+    const a = document.createElement('a')
+    a.download = 'skeleton.txt'
+    const skeletonDom = document.cloneNode('body', true)
+    skeletonDom.querySelector('.skeleton-container').remove()
+    const skeletonHtml = skeletonDom.body.innerHTML.toString()
+    a.href = URL.createObjectURL(new Blob([skeletonHtml]))
+    document.body.appendChild(a)
+    a.click()
+  })
+
+  document.body.appendChild(container)
+  container.appendChild(toggleRawAndSkeletonBtn)
+  container.appendChild(downloadBtn)
 }
 
 App()
